@@ -3,6 +3,6 @@ package org.apibanking;
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
 @QuarkusIntegrationTest
-class GreetingResourceIT extends GreetingResourceTest {
+class ProductResourceIT extends ProductResourceTest {
     // Execute the same tests but in packaged mode.
 }
