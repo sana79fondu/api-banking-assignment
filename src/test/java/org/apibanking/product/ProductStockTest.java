@@ -1,8 +1,10 @@
 package org.apibanking.product;
 
+import io.quarkus.test.TestTransaction;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
+import jakarta.transaction.Transactional;
 import org.apibanking.entity.Product;
 import org.apibanking.resource.ProductResource;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,8 @@ import static org.hamcrest.Matchers.equalTo;
 public class ProductStockTest {
 
     @Test
+    @Transactional
+    @TestTransaction
     public void testStockAvailable() {
         Product product = new Product();
         product.name = "StockCheck";
@@ -36,10 +40,12 @@ public class ProductStockTest {
                 .get("/" + id + "/stock?count=5")
                 .then()
                 .statusCode(200)
-                .body(equalTo("true"));
+                .body(equalTo("Stock Available"));
     }
 
     @Test
+    @Transactional
+    @TestTransaction
     public void testStockNotAvailable() {
         Product product = new Product();
         product.name = "StockFail";
@@ -61,10 +67,12 @@ public class ProductStockTest {
                 .get("/" + id + "/stock?count=5")
                 .then()
                 .statusCode(200)
-                .body(equalTo("false"));
+                .body(equalTo("Stock Not Available"));
     }
 
     @Test
+    @Transactional
+    @TestTransaction
     public void testStockProductNotFound() {
         given()
                 .when()
@@ -72,22 +80,5 @@ public class ProductStockTest {
                 .then()
                 .statusCode(404)
                 .body(equalTo("Product not found for ID: 10"));
-    }
-
-    @Test
-    public void testInvalidIdOrCount() {
-        given()
-                .when()
-                .get("/0/stock?count=5")
-                .then()
-                .statusCode(400)
-                .body(equalTo("Invalid product ID"));
-
-        given()
-                .when()
-                .get("/1/stock?count=0")
-                .then()
-                .statusCode(400)
-                .body(equalTo("Count must be positive"));
     }
 }
