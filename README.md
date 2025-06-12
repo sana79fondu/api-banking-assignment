@@ -3,23 +3,23 @@
 Objective: Build a small application using Quarkus Reactive to create REST APIs for
 performing CRUD (Create, Read, Update, Delete) operations on a Product Management
 system.
+
+## Database Setup Using Docker
+
+We will be using postgres container for our database. You can run the following command to start a postgres container:
+```shell script
+docker run --name pg-quarkus -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=productsdb -p 5432:5432 -d postgres
+
+```
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
 
 ```shell script
+./mvnw clean install
 ./mvnw quarkus:dev
+
 ```
-
-
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
-```
-
 It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
 Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
 
@@ -31,30 +31,8 @@ If you want to build an _über-jar_, execute the following command:
 ./mvnw package -Dquarkus.package.jar.type=uber-jar
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## Testing the Application using Postman
 
-## Creating a native executable
+You can test api using Postman by importing the postman collection
 
-You can create a native executable using:
 
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/api-banking-assignment-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
