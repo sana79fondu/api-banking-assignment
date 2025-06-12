@@ -33,6 +33,6 @@ If you want to build an _über-jar_, execute the following command:
 
 ## Testing the Application using Postman
 
-You can test api using Postman by importing the postman collection
+You can test api using Postman by importing the postman collection provided in "/postman" folder.
 
 
